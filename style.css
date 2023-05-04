@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #333;
+  /*поле по центру:*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /*фон на всю высоту экрана браузера:*/
+  height: 100vh;  
+}
+
+#game-board {
+  /*Переменнsе для повторяющихся значений*/
+  --cell-size: 20vmin;
+  --cell-gap: 2vmin;
+  
+  
+  /*для дальнейшего перемещения плиток с помощью position: absolute*/
+  position: relative;
+  
+  display: grid;
+  /*Раскидаем наши ячейки в 4 колонки по 4 ячейки в ряду
+  20vmin - это 20% от минимального размера, т.е. высоты экрана*/
+  grid-template-columns: repeat(4, var(--cell-size));
+  grid-template-rows: repeat(4, var(--cell-size));
+  
+  /*отступы м/у ячейками*/
+  gap: var(--cell-gap);
+  
+  border-radius: 1vmin;  
+}
+
+/*Стили для самих ячеек*/
+.cell {
+  background-color: #444;
+  border-radius: 1vmin;
+}
+
+.tile {
+  /*Чтобы менять позицию плитки в JS вводим переменную
+  -- перед переменной обязательно!*/
+/*  --y: 1;
+  --x: 2;*/
+  
+  position: absolute;
+  /*разместим плитку слева вверху
+  top: 0;
+  left: 0;*/
+  
+  /*Вычисляем позицию ячейки*/
+  top: calc(var(--y) * (var(--cell-size) + var(--cell-gap)));
+  left: calc(var(--x) * (var(--cell-size) + var(--cell-gap)));
+  
+  
+  /*Чтобы цифра писалась в центре*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+/*  width: 20vmin;
+  height: 20vmin;*/
+  width: var(--cell-size);
+  height: var(--cell-size);
+  
+  border-radius: 1vmin;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 7.5vmin;
+  font-weight: bold;
+  
+  /*меняем цвет с помощью модели hsl
+  оттенок и насіщенность устанавливаем сразу,
+  а для "светлости" используем переменную в CSS*/
+  background-color: hsl(25, 60%, var(--bg-lightness));
+  color: hsl(20, 25%, var(--text-lightness)); 
+  
+  /*Добавим анимацию плитке*/
+  transition: 100ms;
+  animation: show 200ms;
+}
+
+@keyframes show {
+  /*В начале появления плитка полупрозрачная и сжата до точки, а за 200мс примет норм вид*/
+  0% {
+    opacity: 0.5;
+    transform: scale(0);
+  }
+}
